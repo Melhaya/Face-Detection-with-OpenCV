@@ -18,6 +18,7 @@ args = vars(ap.parse_args())
 print("[INFO] loading model...")
 net = cv2.dnn.readNetFromCaffe(args["prototxt"], args["model"])
 
+#imagePaths containing all images in the folder.
 imagePaths = sorted(list(paths.list_images(args["image"]+"/")))
 
 # To make sure the directory given has at least one image.
@@ -27,8 +28,6 @@ if len(imagePaths) == 0:
 images = []
 h,w = 400, 400
 
-#imagePaths containing all images in the folder.
-imagePaths = sorted(list(paths.list_images(args["image"]+"/")))
 
 # Loop over all images and detect the faces.
 for p in imagePaths:
