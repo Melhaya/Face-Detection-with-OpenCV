@@ -1,6 +1,3 @@
-#OpenCV’s deep learning face detector is based on the Single Shot Detector (SSD) framework with a ResNet base network 
-# python detect_faces.py --image rooster.jpg --prototxt deploy.prototxt.txt --model res10_300x300_ssd_iter_140000.caffemodel
-
 import numpy as np
 import argparse
 import cv2
@@ -23,22 +20,19 @@ net = cv2.dnn.readNetFromCaffe(args["prototxt"], args["model"])
 
 imagePaths = sorted(list(paths.list_images(args["image"]+"/")))
 
+# To make sure the directory given has at least one image.
 if len(imagePaths) == 0:
 	print("No images in folder")
-elif len(imagePaths) == 1:
-	Multi_images = False
-	single_image = True
-elif len(imagePaths)> 1:
-	Multi_images = True
-	single_image = False
-
 
 images = []
 h,w = 400, 400
 
+#imagePaths containing all images in the folder.
 imagePaths = sorted(list(paths.list_images(args["image"]+"/")))
 
+# Loop over all images and detect the faces.
 for p in imagePaths:
+	# reads and resizes the images in the directory to be put into a blob.
 	image = cv2.imread(p)
 	image = cv2.resize(image, (h, w))
 	blob = cv2.dnn.blobFromImage(image, 1.0, (h, w), (104.0, 177.0, 123.0))    #blobFromImage(image, scalefactor=1.0, size, mean, swapRB=True)
@@ -52,8 +46,8 @@ for p in imagePaths:
 
 		# extract the confidence associated with the prediction
 		confidence = detections[0, 0, i, 2]
-		# filter out weak detections by ensuring the confidence is greater than the minimum confidence
 		
+		# filter out weak detections by ensuring the confidence is greater than the minimum confidence
 		if confidence > args["confidence"]:
 			# compute the (x, y)-coordinates of the bounding box for the object
 			box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
