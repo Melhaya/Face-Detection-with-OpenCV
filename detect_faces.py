@@ -24,6 +24,7 @@ imagePaths = sorted(list(paths.list_images(args["image"]+"/")))
 # To make sure the directory given has at least one image.
 if len(imagePaths) == 0:
 	print("No images in folder")
+	exit(-1)
 
 images = []
 h,w = 400, 400
